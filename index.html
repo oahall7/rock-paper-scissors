@@ -1,105 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors</title>
+    <title>rock paper scissors</title>
 </head>
+
 <body>
     <script>
+        let playerScore = 0;
+        let computerScore = 0;
 
-        //create function to randomly return either rock, paper, or scissors.
-
-        const options = ["rock", "paper", "scissors"];
-
-        function getComputerChoice(){
-            const choice = options[(Math.floor(Math.random() * options.length))]; //create a variable to pull a random object from the array. Math.random * length will generate a number that corresponds to the items in the array. Math floor will round that number does to the nearest and returns the largest integer less than or equal to a given number?
-            //console.log(choice);
-            return choice;
+        const getComputerChoice = () => {
+            const arrChoices = ["rock", "paper", "scissors"];
+            const randomChoice = Math.floor(Math.random() * arrChoices.length);
+            const itemChoice = arrChoices[randomChoice];
+            return itemChoice;
         }
 
+        //console.log(getComputerChoice())
 
-
-        function checkWinner(playerSelection, computerSelection){
-            if(playerSelection == computerSelection){
-                return "Tie";
-            }
-            else if (
-                (playerSelection == "rock" && computerSelection == "scissors")
-                || (playerSelection == "scissors" && computerSelection == "paper")
-                || (playerSelection == "paper" && computerSelection == "rock")
-            ){
-                return "Player"
-            } 
-            else {
-                return "Computer"
-            }
-        }
-
-        function playRound(playerSelection, computerSelection){
-            const result = checkWinner(playerSelection, computerSelection);
-            if (result == "Tie"){
-                return "It's a Tie!";
-            } 
-            else if (result == "Player"){
-                return `Player Wins! ${playerSelection} beats ${computerSelection}`
-            }
-                else if (result == "Computer"){
-                    return `Computer Wins! ${computerSelection} beats ${playerSelection}`
-                }
-        }
-
-        function getPlayerChoice(){
-            let validatedInput = false;
-            while(validatedInput == false){
-                const choice = prompt("Rock Paper Scissors");
-                if (choice == null){
-                    continue;
-                }
-                //console.log(choice)
-                const choiceLowerCase = choice.toLowerCase();
-                if (options.includes(choiceLowerCase)){
-                    validatedInput == true;
-                    return choiceLowerCase;
-                }
-                //console.log(choiceLowerCase);
+        const playRound = (playerChoice, computerChoice) => {
+            if (playerChoice === "rock" && computerChoice === "rock") {
+                return "You tied! Both players picked rock"
+            } else if (playerChoice === "scissors" && computerChoice === "scissors") {
+                return "You tied! Both players picked scissors"
+            } else if (playerChoice === "paper" && computerChoice === "paper") {
+                return "You tied! Both players picked paper"
+            } else if (playerChoice === "scissors" && computerChoice === "paper") {
+                playerScore++
+                return "Player Wins - scissors beats paper"
+            } else if (playerChoice === "rock" && computerChoice === "scissors") {
+                playerScore++
+                return "Player Wins - rock beats scissors"
+            } else if (playerChoice === "paper" && computerChoice === "rock") {
+                playerScore++
+                return "Player Wins - paper beats rock"
+            } else if (playerChoice === "rock" && computerChoice === "paper") {
+                computerScore++
+                return "Computer Wins - paper Beats rock"
+            } else if (playerChoice === "scissors" && computerChoice === "rock") {
+                computerScore++
+                return "Computer Wins - rock beats scissors"
+            } else if (playerChoice === "paper" && computerChoice === "scissors") {
+                computerScore++
+                return "Computer Wins - scissors beats paper"
             }
         }
 
 
-        function game(){
-            let scorePlayer = 0;
-            let scoreComputer = 0;
-            console.log("Welcome!")
+
+        const game = () => {
             for (let i = 0; i < 5; i++) {
-                const playerSelection = getPlayerChoice();
-                const computerSelection = getComputerChoice();
-                console.log(playRound(playerSelection, computerSelection));
-                if (checkWinner(playerSelection, computerSelection) ==  "Player"){
-                    scorePlayer++;
-                } 
-                else if (checkWinner(playerSelection,computerSelection) == "Computer"){
-                    scoreComputer++;
-                }
-            }
-            //console.log("Game Over")
-            if (scorePlayer > scoreComputer){
-                console.log("Player wins game!")
-            } 
-            else if (scoreComputer > scorePlayer){
-                console.log("Compyter wins game!")
-            }
-            else {
-                console.log("Tie - No Winner")
+                const playerChoice = prompt("Chose your item", "Rock, Paper, Scissors").toLowerCase()
+                const computerChoice = getComputerChoice()
+                console.log(playRound(playerChoice, computerChoice));
             }
 
+            if (playerScore > computerScore) {
+                return "You beat the computer"
+            } else if (computerScore > playerScore) {
+                return "You lost to the computer"
+            } else {
+                return "Tie"
+            }
         }
 
-        game();
+        console.log(game());
+
+
 
 
 
     </script>
 </body>
+
 </html>
